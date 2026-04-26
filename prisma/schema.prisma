@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db/custom.db"
+}
+
+model Session {
+  id          String   @id @default(cuid())
+  eventId     String   @default("evt-001")
+  title       String
+  description String
+  startTime   String
+  endTime     String
+  roomName    String   @default("Main Stage")
+  roomColor   String   @default("#A8FF3E")
+  capacity    Int      @default(100)
+  track       String   @default("Engineering")
+  tags        String   @default("[]")
+  speakers    SpeakerOnSession[]
+  questions   Question[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Speaker {
+  id      String   @id @default(cuid())
+  name    String
+  photo   String   @default("https://i.pravatar.cc/150?img=1")
+  bio     String   @default("")
+  title   String   @default("")
+  company String   @default("")
+  twitter String?
+  linkedin String?
+  website String?
+  github  String?
+  tags    String   @default("[]")
+  sessions SpeakerOnSession[]
+  createdAt DateTime @default(now())
+}
+
+model SpeakerOnSession {
+  id        String  @id @default(cuid())
+  sessionId String
+  speakerId String
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  speaker   Speaker @relation(fields: [speakerId], references: [id], onDelete: Cascade)
+  @@unique([sessionId, speakerId])
+}
+
+model Question {
+  id        String   @id @default(cuid())
+  content   String
+  author    String?
+  upvotes   Int      @default(0)
+  sessionId String
+  session   Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id          String   @id @default("evt-001")
+  title       String
+  description String
+  startDate   String
+  endDate     String
+  venue       String
+  city        String
+  coverImage  String
+  category    String?
+  attendees   Int?
+  price       String?
+  tags        String   @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Room {
+  id    String @id @default("room-main")
+  name  String
+  color String @default("#A8FF3E")
+}
