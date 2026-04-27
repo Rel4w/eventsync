@@ -96,10 +96,11 @@ export default function Sidebar({ activeRoute }: SidebarProps) {
         {/* Collapse toggle */}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="absolute -right-3 top-6 w-6 h-6 rounded-full bg-[#1C1C1C] border border-white/[0.1] flex items-center justify-center text-[#555] hover:text-white transition-colors z-10"
+          className="flex items-center gap-2 px-2 py-1.5 rounded-lg text-[#555] hover:text-white hover:bg-white/[0.05] transition-colors mb-1 flex-shrink-0"
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
-          {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
+          {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+          {!collapsed && <span className="text-xs">Collapse</span>}
         </button>
 
         {/* Main Nav */}

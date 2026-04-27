@@ -402,7 +402,7 @@ export default function AdminDashboardPage() {
             <p className="text-[#666] text-sm mt-1">DevConf Paris 2026 — Live Overview</p>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/admin/settings" className="btn-ghost text-xs border border-white/[0.1]">
+            <Link href="/settings" className="btn-ghost text-xs border border-white/[0.1]">
               <Settings size={14} />
               Settings
             </Link>
