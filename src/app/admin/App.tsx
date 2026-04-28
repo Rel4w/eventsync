@@ -4,7 +4,11 @@ import { Admin, Resource } from 'react-admin';
 import { dataProvider } from './dataProvider';
 import { authProvider } from './authProvider';
 
-import { SessionList, SessionEdit, SessionCreate } from './resources/sessions';
+import { 
+  SessionList, 
+  SessionEdit, 
+  SessionCreate 
+} from './resources/sessions';
 
 const AdminApp = () => (
   <Admin

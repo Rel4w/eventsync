@@ -1,9 +1,19 @@
 'use client';
 
 import { 
-  List, Datagrid, TextField, DateField, NumberField, 
-  EditButton, DeleteButton, Create, Edit, SimpleForm, 
-  TextInput, DateTimeInput, NumberInput 
+  List, 
+  Datagrid, 
+  TextField, 
+  DateField, 
+  NumberField, 
+  EditButton, 
+  DeleteButton, 
+  Create, 
+  Edit, 
+  SimpleForm, 
+  TextInput, 
+  DateTimeInput, 
+  NumberInput 
 } from 'react-admin';
 
 export const SessionList = () => (
