@@ -3,8 +3,18 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./db/custom.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Session {
@@ -26,18 +36,18 @@ model Session {
 }
 
 model Speaker {
-  id      String   @id @default(cuid())
-  name    String
-  photo   String   @default("https://i.pravatar.cc/150?img=1")
-  bio     String   @default("")
-  title   String   @default("")
-  company String   @default("")
-  twitter String?
-  linkedin String?
-  website String?
-  github  String?
-  tags    String   @default("[]")
-  sessions SpeakerOnSession[]
+  id        String   @id @default(cuid())
+  name      String
+  photo     String   @default("https://i.pravatar.cc/150?img=1")
+  bio       String   @default("")
+  title     String   @default("")
+  company   String   @default("")
+  twitter   String?
+  linkedin  String?
+  website   String?
+  github    String?
+  tags      String   @default("[]")
+  sessions  SpeakerOnSession[]
   createdAt DateTime @default(now())
 }
 
