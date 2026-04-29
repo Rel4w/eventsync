@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./db/custom.db"
+  provider = "postgreSQL"
+  url      = "file:/home/z/my-project/db/custom.db"
 }
 
 model Session {
