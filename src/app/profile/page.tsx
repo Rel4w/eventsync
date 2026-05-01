@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import AppLayout from '@/components/AppLayout';
 import MobileNav from '@/components/MobileNav';
-import { Camera, Save, Mail, CheckCircle } from 'lucide-react';
+import { Camera, Save, Mail, CheckCircle, LogOut } from 'lucide-react';
 
 interface ProfileData {
   name: string;
@@ -89,6 +89,11 @@ export default function ProfilePage() {
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   };
+  const handleLogout = () => {
+  localStorage.removeItem('user');
+  document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  router.push('/auth/login');
+};
 
   if (loading) {
     return (
@@ -103,11 +108,6 @@ export default function ProfilePage() {
   return (
     <AppLayout activeRoute="/profile">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 lg:pb-12">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="font-display font-bold text-3xl text-white mb-1">My Profile</h1>
-          <p className="text-[#666] text-sm">Manage your personal information and preferences</p>
-        </div>
 
         {/* Tabs */}
         <div className="flex gap-1 p-1 rounded-xl bg-[#161616] border border-white/[0.07] mb-8 w-fit">
@@ -125,6 +125,19 @@ export default function ProfilePage() {
             </button>
           ))}
         </div>
+              <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="font-display font-bold text-3xl text-white mb-1">My Profile</h1>
+          <p className="text-[#666] text-sm">Manage your personal information and preferences</p>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 hover:bg-red-500/20 transition-all text-sm"
+        >
+          <LogOut size={16} />
+          Déconnexion
+        </button>
+      </div>
 
         {activeTab === 'profile' && (
           <div className="space-y-6">

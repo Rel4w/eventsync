@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { LogIn, User } from 'lucide-react';
+import { LogIn, User, LogOut } from 'lucide-react';
 import AppLogo from '@/components/ui/AppLogo';
 import {
   Home,
@@ -47,7 +47,6 @@ export default function Sidebar({ activeRoute }: SidebarProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
 
-  // Vérifier si l'utilisateur est connecté
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -60,6 +59,13 @@ export default function Sidebar({ activeRoute }: SidebarProps) {
       }
     }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    setIsLoggedIn(false);
+    setUserName('');
+  };
 
   const mainItems = NAV_ITEMS.filter(i => i.section === 'main');
   const personalItems = NAV_ITEMS.filter(i => i.section === 'personal');
@@ -82,9 +88,7 @@ export default function Sidebar({ activeRoute }: SidebarProps) {
         }`}
       >
         <Icon size={17} className="flex-shrink-0" />
-        {!collapsed && (
-          <span className="flex-1 truncate">{item.label}</span>
-        )}
+        {!collapsed && <span className="flex-1 truncate">{item.label}</span>}
         {!collapsed && item.badge && (
           <span className="ml-auto px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#FF6B2B]/20 text-[#FF6B2B] min-w-[18px] text-center">
             {item.badge}
@@ -106,9 +110,7 @@ export default function Sidebar({ activeRoute }: SidebarProps) {
         <div className="flex items-center gap-3 px-2 mb-6 overflow-hidden flex-shrink-0">
           <AppLogo size={32} />
           {!collapsed && (
-            <span className="font-display font-bold text-lg text-white whitespace-nowrap">
-              EventSync
-            </span>
+            <span className="font-display font-bold text-lg text-white whitespace-nowrap">EventSync</span>
           )}
         </div>
 
@@ -125,26 +127,20 @@ export default function Sidebar({ activeRoute }: SidebarProps) {
         {/* Navigation */}
         <nav className="flex flex-col gap-0.5 flex-1">
           {!collapsed && (
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#444] px-3 mb-2">
-              Navigation
-            </p>
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#444] px-3 mb-2">Navigation</p>
           )}
           {mainItems.map(item => renderNavItem(item))}
 
           <div className="mt-4">
             {!collapsed && (
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-[#444] px-3 mb-2">
-                Personal
-              </p>
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-[#444] px-3 mb-2">Personal</p>
             )}
             {personalItems.map(item => renderNavItem(item))}
           </div>
 
           <div className="mt-4">
             {!collapsed && (
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-[#444] px-3 mb-2">
-                Admin
-              </p>
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-[#444] px-3 mb-2">Admin</p>
             )}
             {adminItems.map(item => renderNavItem(item, true))}
           </div>
@@ -173,7 +169,7 @@ export default function Sidebar({ activeRoute }: SidebarProps) {
           </Link>
         )}
 
-        {/* Carte utilisateur en bas */}
+        {/* Carte utilisateur */}
         {!collapsed && isLoggedIn && (
           <div className="flex items-center gap-3 px-3 py-2.5 mt-3 rounded-xl bg-white/[0.03] border border-white/[0.06] flex-shrink-0">
             <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#A8FF3E] to-[#FF6B2B] flex items-center justify-center text-xs font-bold text-[#0D0D0D] flex-shrink-0">
@@ -184,6 +180,17 @@ export default function Sidebar({ activeRoute }: SidebarProps) {
               <p className="text-[10px] text-[#555] truncate">Connecté</p>
             </div>
           </div>
+        )}
+
+        {/* Bouton Déconnexion */}
+        {isLoggedIn && (
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-red-400 hover:text-red-300 hover:bg-red-500/10 mt-2 flex-shrink-0"
+          >
+            <LogOut size={17} className="flex-shrink-0" />
+            {!collapsed && <span>Déconnexion</span>}
+          </button>
         )}
       </div>
     </aside>
