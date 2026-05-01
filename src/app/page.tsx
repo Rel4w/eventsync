@@ -14,13 +14,10 @@ import {
   Globe,
   Star,
   Sparkles,
-  Clock,
   Eye,
   Play,
-  ChevronRight,
 } from 'lucide-react';
 
-/* ─── Gradient colors per event category ─── */
 const CATEGORY_GRADIENTS: Record<string, string> = {
   'Technology': 'linear-gradient(135deg, #A8FF3E 0%, #7ACC2A 100%)',
   'AI & ML': 'linear-gradient(135deg, #FF6B2B 0%, #FF9A5C 100%)',
@@ -36,7 +33,6 @@ function getCategoryGradient(category?: string): string {
   return CATEGORY_GRADIENTS[category || ''] || 'linear-gradient(135deg, #A8FF3E 0%, #FF6B2B 100%)';
 }
 
-/* ─── Stats with animation support ─── */
 const STATS = [
   { label: 'Events This Year', value: '48', change: '+12%', icon: CalendarDays, color: '#A8FF3E' },
   { label: 'Total Speakers', value: '320+', change: '+8%', icon: Users, color: '#FF6B2B' },
@@ -46,7 +42,6 @@ const STATS = [
 
 const CATEGORIES = ['All', 'Technology', 'AI & ML', 'Design', 'DevOps', 'Data', 'Security', 'Open Source', 'Startup'];
 
-/* ─── Animated stat number ─── */
 function AnimatedStatNumber({ value, delay }: { value: string; delay: number }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -65,7 +60,6 @@ function AnimatedStatNumber({ value, delay }: { value: string; delay: number }) 
   );
 }
 
-/* ─── Event Card (job-listing inspired) ─── */
 function EventCard({ event, index }: { event: typeof UPCOMING_EVENTS[0]; index: number }) {
   const [saved, setSaved] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -91,9 +85,7 @@ function EventCard({ event, index }: { event: typeof UPCOMING_EVENTS[0]; index: 
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}
     >
-      {/* Top row: icon + name/date ─ bookmark */}
       <div className="flex items-start gap-4">
-        {/* Circular gradient icon */}
         <div
           className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 text-white font-display font-bold text-xl shadow-lg"
           style={{ background: gradient }}
@@ -117,7 +109,6 @@ function EventCard({ event, index }: { event: typeof UPCOMING_EVENTS[0]; index: 
           </h3>
         </div>
 
-        {/* Bookmark button */}
         <button
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSaved(!saved); }}
           className="flex-shrink-0 p-2 rounded-xl border border-white/[0.07] bg-white/[0.02] hover:bg-[#FF6B2B]/10 hover:border-[#FF6B2B]/30 transition-all duration-200"
@@ -130,7 +121,6 @@ function EventCard({ event, index }: { event: typeof UPCOMING_EVENTS[0]; index: 
         </button>
       </div>
 
-      {/* Tags */}
       <div className="flex flex-wrap gap-1.5 pl-[4.5rem]">
         <span className="tag-chip">{event?.category}</span>
         {event?.tags?.map((tag) => (
@@ -138,7 +128,6 @@ function EventCard({ event, index }: { event: typeof UPCOMING_EVENTS[0]; index: 
         ))}
       </div>
 
-      {/* Bottom row: location · price · attendees ─ view button */}
       <div className="flex items-center justify-between pl-[4.5rem]">
         <div className="flex items-center gap-4 text-[#555] text-xs">
           <span className="flex items-center gap-1.5">
@@ -169,7 +158,6 @@ function EventCard({ event, index }: { event: typeof UPCOMING_EVENTS[0]; index: 
   );
 }
 
-/* ─── Page Component ─── */
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [heroVisible, setHeroVisible] = useState(false);
@@ -187,13 +175,10 @@ export default function HomePage() {
   return (
     <AppLayout activeRoute="/">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-8 pb-24 lg:pb-12">
-        {/* ════════════════════ Hero Section ════════════════════ */}
         <section className="relative mb-14 overflow-hidden rounded-3xl border border-white/[0.07]">
-          {/* Background glows */}
           <div className="absolute inset-0 bg-[#0F0F0F] pointer-events-none" />
           <div className="absolute inset-0 hero-glow-left pointer-events-none" />
           <div className="absolute inset-0 hero-glow-right pointer-events-none" />
-          {/* Subtle grid pattern */}
           <div
             className="absolute inset-0 opacity-[0.03] pointer-events-none"
             style={{
@@ -253,7 +238,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Featured event mini-card */}
               <div
                 className={`w-full lg:w-80 xl:w-[22rem] flex-shrink-0 transition-all duration-700 delay-400 ${
                   heroVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'
@@ -299,7 +283,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ════════════════════ Stats Row ════════════════════ */}
         <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
           {STATS?.map((stat, i) => {
             const StatIcon = stat?.icon;
@@ -337,7 +320,6 @@ export default function HomePage() {
           })}
         </section>
 
-        {/* ════════════════════ Upcoming Events ════════════════════ */}
         <section className="mb-14">
           <div className="flex items-center justify-between mb-7">
             <div>
@@ -353,7 +335,6 @@ export default function HomePage() {
             </span>
           </div>
 
-          {/* Category filter */}
           <div className="flex gap-2 overflow-x-auto pb-2 mb-7 scrollbar-thin">
             {CATEGORIES?.map((cat) => (
               <button
@@ -370,7 +351,6 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Events list — single column, job-listing inspired */}
           <div className="flex flex-col gap-4">
             {filtered?.map((event, idx) => (
               <EventCard key={event?.id} event={event} index={idx} />
@@ -385,7 +365,6 @@ export default function HomePage() {
           )}
         </section>
 
-        {/* ════════════════════ Featured Speakers ════════════════════ */}
         <section className="mb-14">
           <div className="flex items-center justify-between mb-7">
             <div>
@@ -402,7 +381,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {SPEAKERS?.slice(0, 5)?.map((speaker, i) => (
+            {SPEAKERS?.slice(0, 5)?.map((speaker) => (
               <Link
                 key={speaker?.id}
                 href="/speakers"
@@ -427,7 +406,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ════════════════════ CTA Banner ════════════════════ */}
         <section
           className="rounded-3xl overflow-hidden relative p-8 lg:p-10"
           style={{

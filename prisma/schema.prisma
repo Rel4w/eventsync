@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgreSQL"
-  url      = "file:/home/z/my-project/db/custom.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Session {
@@ -81,4 +81,13 @@ model Room {
   id    String @id @default("room-main")
   name  String
   color String @default("#A8FF3E")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

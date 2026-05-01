@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
+import { LogIn } from 'lucide-react';
 import { Home, CalendarDays, LayoutGrid, Heart, User } from 'lucide-react';
 import Icon from '@/components/ui/AppIcon';
 
@@ -38,6 +39,13 @@ export default function MobileNav({ activeRoute }: MobileNavProps) {
           );
         })}
       </div>
+      <Link
+  href="/auth/login"
+  className="flex flex-col items-center gap-1 text-dark-400 hover:text-neon-green transition-colors"
+>
+  <LogIn className="w-5 h-5" />
+  <span className="text-xs">Connexion</span>
+</Link>
     </nav>
   );
 }
